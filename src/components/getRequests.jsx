@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import http from 'http';
+
 import ViewMe from './viewMe';
+import ViewPeers from './viewPeers';
+import ViewVault from './viewVault';
+import MakeIssuance from './makeIssuance';
 
 class GetRequests extends Component {
+    // https://nodejs.org/api/http.html#http_http_get_options_callback
     makeRequest(url, stateChanger) {
         http.get(url, (res) => {
             const { statusCode } = res;
@@ -46,7 +51,12 @@ class GetRequests extends Component {
 
         return (
             <div>
-                <ViewMe/>
+                {/* CHANGE ME -> Just UI */}
+                <h1>/template</h1>
+                <ViewMe request={this.makeRequest}/>
+                <ViewPeers request={this.makeRequest}/>
+                <ViewVault request={this.makeRequest}/>
+                <MakeIssuance request={this.makeRequest}/>
             </div>
         );
     }

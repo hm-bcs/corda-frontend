@@ -1,62 +1,26 @@
 import React, {Component} from 'react';
-import http from 'http';
 
 class ViewMe extends Component {
     constructor(props) {
         super(props);
         this.state = {me: ''}; // state to hold what '/me' enpoint is
 
-        this.getMe();
+        // CHANGE ME
+        this.props.request('http://nepnep.southeastasia.cloudapp.azure.com:8080/template/me', this.updateState.bind(this));
     }
-    getMe() {
-        http.get('http://localhost:8080/template/me', (res) => {
-            const { statusCode } = res;
-            const contentType = res.headers['content-type'];
-          
-            // Error checking
-            let error;
-            if (statusCode !== 200) {
-              error = new Error('Request Failed.\n' +
-                                `Status Code: ${statusCode}`);
-            } else if (!/^application\/json/.test(contentType)) {
-              error = new Error('Invalid content-type.\n' +
-                                `Expected application/json but received ${contentType}`);
-            }
-            if (error) {
-              console.error(error.message);
-              res.resume();
-              return;
-            }
-
-
-            // Reading response
-            res.setEncoding('utf8');
-            let rawData = '';
-            
-            res.on('data', (chunk) => {
-                rawData += chunk;
-            });
-            res.on('end', () => {
-                try {
-                    const response = JSON.parse(rawData);
-                    // changing state to hold the response
-                    this.setState((prevState, props) => {
-                        return {me: response};
-                    });
-                } catch (e) {
-                    console.error(e.message);
-                }
-            });
-        });
+    updateState(newMe) {
+        this.setState({me: newMe});
     }
     render () {
         let name = '';
         if(this.state.me !== '') {
+            // CHANGE ME -> structure of response
             name = this.state.me.me.x500Principal.name;
         }
         
         return(
             <div>
+                {/* CHANGE ME -> Just UI */}
                 <h3>GET /me</h3>
                 <p>{name}</p>
             </div>
